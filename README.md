@@ -1,6 +1,6 @@
 # C# Project Template
 
-A template for a C# project.
+A template for a C# project
 
 This project follows the [C# at Google Style Guide](https://google.github.io/styleguide/csharp-style.html).
 

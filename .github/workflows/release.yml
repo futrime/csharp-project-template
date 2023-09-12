@@ -63,6 +63,8 @@ jobs:
       - build
       - format
       - test
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     strategy:
       matrix:
