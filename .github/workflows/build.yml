@@ -55,6 +55,8 @@ jobs:
 
       - run: dotnet format --verify-no-changes src/MyProject
 
+      - run: dotnet format --verify-no-changes src/MyProject.Tests
+
   test:
     strategy:
       matrix:

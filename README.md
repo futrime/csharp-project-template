@@ -2,8 +2,6 @@
 
 A template for a C# project
 
-This project follows the [C# at Google Style Guide](https://google.github.io/styleguide/csharp-style.html).
-
 ## Usage
 
 You can directly use this repository as a template for your own project. Before starting your project, you may need to modify the following files:
@@ -30,7 +28,7 @@ If you have any suggestions or improvements, please submit [an issue](https://gi
 
 - [A collection of `.gitignore` templates](https://github.com/github/gitignore)
 - [A Collection of Useful .gitattributes Templates](https://github.com/alexkaratarakis/gitattributes)
-- [C# at Google Style Guide](https://google.github.io/styleguide/csharp-style.html)
+- [Common C# code conventions](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions)
 - [keep a changelog](https://github.com/olivierlacan/keep-a-changelog)
 - [Standard Readme](https://github.com/RichardLitt/standard-readme)
 - [Unit testing best practices with .NET Core and .NET Standard](https://learn.microsoft.com/en-us/dotnet/core/testing/unit-testing-best-practices)
