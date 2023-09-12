@@ -1,0 +1,139 @@
+on:
+  release:
+    types: 
+      - published
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        runtime:
+          - linux-arm
+          - linux-arm64
+          - linux-x64
+          - linux-musl-arm
+          - linux-musl-arm64
+          - linux-musl-x64
+          - osx-arm64
+          - osx-x64
+          - win-arm
+          - win-arm64
+          - win-x64
+          - win-x86
+        include:
+          - runs-on: ubuntu-latest
+          - runs-on: macos-latest
+            runtime: osx-x64
+          - runs-on: macos-latest
+            runtime: osx-arm64
+    runs-on: ${{ matrix.runs-on }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
+
+      - run: |
+          dotnet publish src/MyProject/MyProject.csproj -c Release -o bin \
+          --sc false -r ${{ matrix.runtime }} -p:DebugType=none \
+          -p:PublishSingleFile=true
+
+      - run: |
+          cp CHANGELOG.md LICENSE README.md bin
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: MyProject-${{ matrix.runtime }}-${{ github.sha }}
+          path: bin
+
+  format:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
+
+      - run: dotnet format --verify-no-changes src/MyProject
+
+  upload-to-release:
+    needs:
+      - build
+      - format
+      - test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        runtime:
+          - linux-arm
+          - linux-arm64
+          - linux-x64
+          - linux-musl-arm
+          - linux-musl-arm64
+          - linux-musl-x64
+          - osx-arm64
+          - osx-x64
+          - win-arm
+          - win-arm64
+          - win-x64
+          - win-x86
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: MyProject-${{ matrix.runtime }}-${{ github.sha }}
+          path: bin
+
+      - run: |
+          cp CHANGELOG.md LICENSE README.md bin/
+
+      - name: Pack artifact (Windows)
+        if: startsWith(matrix.runtime, 'win')
+        run: |
+          cd bin
+          zip -r ../MyProject-${{ matrix.runtime }}-${{ github.ref_name }}.zip *
+          cd ..
+  
+      - name: Pack artifact (Linux & macOS)
+        if: startsWith(matrix.runtime, 'linux') || startsWith(matrix.runtime, 'osx')
+        run: |
+          cd bin
+          tar -czvf ../MyProject-${{ matrix.runtime }}-${{ github.ref_name }}.tar.gz *
+          cd ..
+
+      - name: Upload artifact to release (Windows)
+        if: startsWith(matrix.runtime, 'win')
+        uses: softprops/action-gh-release@v1
+        with:
+          append_body: true
+          files: |
+            MyProject-${{ matrix.runtime }}-${{ github.ref_name }}.zip
+
+      - name: Upload artifact to release (Linux & macOS)
+        if: startsWith(matrix.runtime, 'linux') || startsWith(matrix.runtime, 'osx')
+        uses: softprops/action-gh-release@v1
+        with:
+          append_body: true
+          files: |
+            MyProject-${{ matrix.runtime }}-${{ github.ref_name }}.tar.gz
+        
+  test:
+    strategy:
+      matrix:
+        runs-on:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+    runs-on: ${{ matrix.runs-on }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.0.x
+
+      - run: |
+          dotnet test src/MyProject.Tests/MyProject.Tests.csproj
