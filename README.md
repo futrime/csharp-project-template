@@ -1,6 +1,6 @@
 # C# Project Template
 
-A template for a C# project
+A template for C# projects
 
 ## Usage
 
