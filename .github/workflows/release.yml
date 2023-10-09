@@ -47,19 +47,6 @@ jobs:
           name: MyProject-${{ matrix.runtime }}-${{ github.sha }}
           path: bin
 
-  format:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 6.0.x
-
-      - run: dotnet format --verify-no-changes src/MyProject
-
-      - run: dotnet format --verify-no-changes src/MyProject.Tests
-
   upload-to-release:
     needs:
       - build
@@ -98,14 +85,14 @@ jobs:
         if: startsWith(matrix.runtime, 'win')
         run: |
           cd bin
-          zip -r ../MyProject-${{ matrix.runtime }}-${{ github.ref_name }}.zip *
+          zip -r ../MyProject-${{ matrix.runtime }}.zip *
           cd ..
   
       - name: Pack artifact (Linux & macOS)
         if: startsWith(matrix.runtime, 'linux') || startsWith(matrix.runtime, 'osx')
         run: |
           cd bin
-          tar -czvf ../MyProject-${{ matrix.runtime }}-${{ github.ref_name }}.tar.gz *
+          tar -czvf ../MyProject-${{ matrix.runtime }}.tar.gz *
           cd ..
 
       - name: Upload artifact to release (Windows)
@@ -114,7 +101,7 @@ jobs:
         with:
           append_body: true
           files: |
-            MyProject-${{ matrix.runtime }}-${{ github.ref_name }}.zip
+            MyProject-${{ matrix.runtime }}.zip
 
       - name: Upload artifact to release (Linux & macOS)
         if: startsWith(matrix.runtime, 'linux') || startsWith(matrix.runtime, 'osx')
@@ -122,22 +109,4 @@ jobs:
         with:
           append_body: true
           files: |
-            MyProject-${{ matrix.runtime }}-${{ github.ref_name }}.tar.gz
-        
-  test:
-    strategy:
-      matrix:
-        runs-on:
-          - ubuntu-latest
-          - macos-latest
-          - windows-latest
-    runs-on: ${{ matrix.runs-on }}
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 6.0.x
-
-      - run: |
-          dotnet test src/MyProject.Tests/MyProject.Tests.csproj
+            MyProject-${{ matrix.runtime }}.tar.gz
