@@ -30,7 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-dotnet@v3
+      - uses: actions/setup-dotnet@v4
         with:
           dotnet-version: 6.0.x
 
@@ -42,7 +42,7 @@ jobs:
       - run: |
           cp CHANGELOG.md LICENSE README.md bin
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: MyProject-${{ matrix.runtime }}-${{ github.sha }}
           path: bin
@@ -69,9 +69,9 @@ jobs:
           - win-x64
           - win-x86
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: MyProject-${{ matrix.runtime }}-${{ github.sha }}
           path: bin
