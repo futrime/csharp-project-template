@@ -39,9 +39,6 @@ jobs:
           --sc false -r ${{ matrix.runtime }} -p:DebugType=none \
           -p:PublishSingleFile=true
 
-      - run: |
-          cp CHANGELOG.md LICENSE README.md bin
-
       - uses: actions/upload-artifact@v4
         with:
           name: MyProject-${{ matrix.runtime }}-${{ github.sha }}
