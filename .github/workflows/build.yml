@@ -32,30 +32,30 @@ jobs:
 
       - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: 8
 
       - run: |
-          dotnet build src/MyProject/MyProject.csproj -c Release -o bin \
+          dotnet build src/ChangeThis/ChangeThis.csproj -c Release -o bin \
           --sc false -r ${{ matrix.runtime }} -p:DebugType=none \
           -p:PublishSingleFile=true
 
       - uses: actions/upload-artifact@v4
         with:
-          name: MyProject-${{ matrix.runtime }}-${{ github.sha }}
-          path: bin
+          name: ${{ github.event.repository.name }}-${{ matrix.runtime }}-${{ github.sha }}
+          path: bin/
 
-  format:
+  check-style:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: 8
 
-      - run: dotnet format --verify-no-changes src/MyProject
+      - run: dotnet format --verify-no-changes src/ChangeThis
 
-      - run: dotnet format --verify-no-changes src/MyProject.Tests
+      - run: dotnet format --verify-no-changes src/ChangeThis.Tests
 
   test:
     strategy:
@@ -70,7 +70,7 @@ jobs:
 
       - uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: 6.0.x
+          dotnet-version: 8
 
       - run: |
-          dotnet test src/MyProject.Tests/MyProject.Tests.csproj
+          dotnet test src/ChangeThis.Tests/ChangeThis.Tests.csproj
