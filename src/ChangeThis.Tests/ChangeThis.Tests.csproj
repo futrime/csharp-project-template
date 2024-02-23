@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CSharpProjectTemplate\CSharpProjectTemplate.csproj" />
+    <ProjectReference Include="..\ChangeThis\ChangeThis.csproj" />
   </ItemGroup>
 
 </Project>

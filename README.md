@@ -24,6 +24,8 @@ Generate a new repository from this template.
 
 1. Change `LICENSE` and `README.md`.
 
+1. Search for all `ChangeThis` in the project and change them to your project name.
+
 ## Contributing
 
 Ask questions by creating an issue.

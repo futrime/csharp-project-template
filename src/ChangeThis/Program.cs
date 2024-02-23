@@ -1,4 +1,4 @@
-﻿namespace CSharpProjectTemplate;
+﻿namespace ChangeThis;
 
 class Program
 {

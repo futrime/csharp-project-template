@@ -1,4 +1,4 @@
-namespace CSharpProjectTemplate.Tests;
+namespace ChangeThis.Tests;
 
 public class UnitTest1
 {
