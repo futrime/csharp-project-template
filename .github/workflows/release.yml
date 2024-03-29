@@ -6,6 +6,7 @@ on:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         runtime:
           - linux-arm
@@ -66,6 +67,7 @@ jobs:
       contents: write
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         runtime:
           - linux-arm
