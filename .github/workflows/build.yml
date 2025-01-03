@@ -39,7 +39,8 @@ jobs:
             -c Release \
             -o bin \
             -r ${{ matrix.runtime }} \
-            -p:PublishAot=true
+            --sc false \
+            -p:PublishSingleFile=true
 
       - uses: actions/upload-artifact@v4
         with:
