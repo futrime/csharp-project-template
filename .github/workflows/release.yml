@@ -36,7 +36,7 @@ jobs:
           dotnet-version: 8
 
       - run: |
-          dotnet build src/ChangeThis/ChangeThis.csproj -c Release -o bin \
+          dotnet build ChangeThis/ChangeThis.csproj -c Release -o bin \
           --sc false -r ${{ matrix.runtime }} -p:DebugType=none \
           -p:PublishSingleFile=true
 
