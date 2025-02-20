@@ -1,4 +1,4 @@
-﻿namespace ChangeThis;
+namespace ChangeThis;
 
 class Program
 {
